@@ -1,0 +1,12 @@
+Welcome to Hangman!
+
+The object of the game is the same as the traditional hanged man, found the word before josé (the hanged man) is hanged.
+
+The game automatically chooses the word you just have to give the letters one by one to play.
+
+It is strictly forbidden to touch the code except the word if you want to add words however any bug declare with addition of words will be your responsibility.
+
+Thank you for reading the rules.
+
+Good game !
+The Hangman team.
