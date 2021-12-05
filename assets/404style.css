@@ -1,0 +1,49 @@
+/* import an installed and stocked font on the indicated path */
+@font-face {
+    font-family: "Mont";
+    src: url("/assets/fonts/Mont-HeavyDEMO.otf");
+}
+
+@font-face {
+    font-family: "Coolvetica";
+    src: url("/assets/fonts/coolvetica\ rg.otf");
+}
+
+/* part where we stock our variable */
+:root {
+    --bg-color: white;
+}
+
+/* main block (if i also apply some option like text-align it's apply on her "sons") */
+body {
+    margin:0;
+    text-align: center;
+    background-color: var(--bg-color);
+}
+
+
+span {
+    font-size: 20vw;
+    font-family: "Mont";
+    text-shadow: -2vw 0px var(--bg-color);
+    letter-spacing: -2.5vw;
+}
+
+h2 {
+    font-size: 3vw;
+    font-family: "Coolvetica";
+}
+
+h3 {
+    font-size: 2vw;
+    font-family: "Coolvetica";
+}
+
+/* div = block qui stock tous nos text et qui l'est centre */
+div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}

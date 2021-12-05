@@ -42,6 +42,7 @@ const TEXT_INTRO = `╔═══════════════════
 // Program Part
 //-------------------------------------------------------------------------------------
 
+/*
 // Function to display a menu at the beginning
 func Menu() {
 	Clear()
@@ -80,6 +81,7 @@ func Menu() {
 		Menu()
 	}
 }
+*/
 
 // Function to read differently an file.txt (full only)
 func OpenRules(rulesFileName string) {
@@ -89,7 +91,7 @@ func OpenRules(rulesFileName string) {
 	cmd.Run()
 	fmt.Print("\n\nPress [ENTER] to return to the menu")
 	fmt.Scanf("%v")
-	Menu()
+	//Menu()
 }
 
 // Function to open a file and create a scanner for this file

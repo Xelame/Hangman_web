@@ -1,0 +1,40 @@
+body {
+  margin:0;
+  text-align: center;
+}
+
+form {
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 50%;
+  background-color: aquamarine;
+}
+
+button {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 25%;
+    box-shadow: 0 9px #999;
+    margin-bottom: 12px;
+    margin-right: 3px;
+  }
+  
+button:hover {background-color: #3e8e41}
+  
+button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+button.unavailable {
+  background-color: #666;
+  cursor: not-allowed;
+}

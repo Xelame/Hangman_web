@@ -1,37 +1,20 @@
 package hangman
 
 // -----------------------------------------------------------------------------------
-// Import Part
-// -----------------------------------------------------------------------------------
-
-import "fmt"
-
-//-------------------------------------------------------------------------------------
-// Const and Var Part
-//-------------------------------------------------------------------------------------
-
-const ALREADY_SAYS = "This letter is already says."
-const ASK_LETTER = "Can you give me a letter please : "
-const WRITE_SOMETHING = "Don't write something else than a letter please."
-const ONE_LETTER = "Don't write more than one letter please."
-
-// -----------------------------------------------------------------------------------
 // Program Part
 // -----------------------------------------------------------------------------------
 
 // Function to take player's entry with some conditions
-func GuessingLetter() {
-	var letterGuessed rune = ' '
-	fmt.Print(ASK_LETTER) // Ask the question
-	// Ask again the question while the player's entry isn't valid
-	for fmt.Scanf("%s", &input); IsValidEntry(input); fmt.Scanf("%s", &input) {
-		fmt.Print(ASK_LETTER)
-	}
+// TODO A adapter
+func GuessingLetter(Guess string) {
+	var letterGuessed = ' '
+
 	// Take the letter
-	for _, value := range input {
+	for _, value := range Guess {
 		letterGuessed = ToUpper(rune(value)) // Put this letter in capital letter
 	}
 	lettersAlreadyAppeard = append(lettersAlreadyAppeard, letterGuessed) // Add the letter in our list of guessed letters
+
 }
 
 // Function to regroup tests to know if the player's entry is valid
@@ -49,18 +32,15 @@ func IsValidEntry(guessingInput string) bool {
 		for _, letterAlreadyHere := range lettersAlreadyAppeard {
 			if guessingLetter == letterAlreadyHere {
 				isNotValid = true
-				fmt.Println(ALREADY_SAYS)
 			}
 		}
 		// If it's a capital letter or a accented letter (like in french)
 		if !(IsUpper(guessingLetter) || IsExctendedAsciiLetter(guessingLetter)) {
 			isNotValid = true
-			fmt.Println(WRITE_SOMETHING)
 		}
 	} else {
 		// The entry is too long
 		isNotValid = true
-		fmt.Println(ONE_LETTER)
 	}
 	return isNotValid
 }

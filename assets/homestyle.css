@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "Bold";
+    src: url("/assets/fonts/theboldfont.ttf");
+}
+
+body {
+    margin:0;
+    text-align: center;
+}
+
+h1 {
+    font-family: "Bold";
+    font-size: 15vw;
+    margin-top: -3vw;
+    margin-bottom: -3vw;
+}
+
