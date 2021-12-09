@@ -47,13 +47,7 @@ func Init(attemptsNumber int) string {
 }
 
 // Function to regroup test to know if the game is end
-func IsFinished(numberOfAttempts int, word string) bool {
-	isRunning = true // Initialize our boolean
-	numberOfLetterMissing = 0
-	// if we haven't no longer attempts
-	if numberOfAttempts == 0 {
-		isRunning = false
-	}
+func IsFinished(word string) bool {
 	// Count number of underscore in the hiddenword
 	for _, letter := range word {
 		if letter == '_' {
