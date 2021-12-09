@@ -27,8 +27,8 @@ var numberOfLetterMissing int = 0
 // Program Part
 // -----------------------------------------------------------------------------------
 
-// Function to run the game
-func Game(attemptsNumber int) string {
+// Function to Init the game
+func Init(attemptsNumber int) string {
 	// At the beginning of each game
 	lettersAlreadyAppeard = []rune{'-'}
 	wordChoosen = ChooseWord(DICTIONARY_FILENAME) // Choose a word randomly
@@ -47,7 +47,7 @@ func Game(attemptsNumber int) string {
 }
 
 // Function to regroup test to know if the game is end
-func isFinished(numberOfAttempts int, word string) bool {
+func IsFinished(numberOfAttempts int, word string) bool {
 	isRunning = true // Initialize our boolean
 	numberOfLetterMissing = 0
 	// if we haven't no longer attempts

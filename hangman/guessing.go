@@ -1,20 +1,17 @@
 package hangman
 
+import "fmt"
+
 // -----------------------------------------------------------------------------------
 // Program Part
 // -----------------------------------------------------------------------------------
 
 // Function to take player's entry with some conditions
-// TODO A adapter
-func GuessingLetter(Guess string) {
-	var letterGuessed = ' '
-
-	// Take the letter
-	for _, value := range Guess {
-		letterGuessed = ToUpper(rune(value)) // Put this letter in capital letter
+func GuessingButton(Guess string) {
+	for _, letter := range Guess {
+		fmt.Println(string(ToUpper(letter)))
+		lettersAlreadyAppeard = append(lettersAlreadyAppeard, ToUpper(letter)) // Add the letter in our list of guessed letters
 	}
-	lettersAlreadyAppeard = append(lettersAlreadyAppeard, letterGuessed) // Add the letter in our list of guessed letters
-
 }
 
 // Function to regroup tests to know if the player's entry is valid
