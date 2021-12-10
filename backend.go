@@ -21,6 +21,7 @@ var p = DATA{
 	Attemps:   hangman.ATTEMPTS_NUMBER,
 	Img:       "",
 }
+
 var ancienmot = ""
 
 func main() {
@@ -39,28 +40,26 @@ func main() {
 
 	// Ouvre le serveur
 	fmt.Println("Open server at http://localhost:8080/home")
-	log.Fatal(http.ListenAndServe(":7878", nil))
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
 // Page 404 qui s'affiche si mauvaise entrer d'URL
 func errorHandler(w http.ResponseWriter, r *http.Request) {
-	template.Must(template.ParseFiles("404.html")).ExecuteTemplate(w, "404.html", nil)
+	template.Must(template.ParseFiles("404.html")).Execute(w, nil)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	p.Word = "<p>" + hangman.Init(p.Attemps) + "</p>"
+	p.Word = hangman.Init(p.Attemps)
 	p.Attemps = hangman.ATTEMPTS_NUMBER
 	p.Img = ""
-	template.Must(template.ParseFiles("home.html")).ExecuteTemplate(w, "home.html", nil)
+	template.Must(template.ParseFiles("home.html")).Execute(w, nil)
 }
 
 // Soluce 1
 func testHandler(w http.ResponseWriter, r *http.Request) {
 	count := 0
 	r.ParseForm()
-	if len(r.Form["test"]) > 0 {
-		hangman.GuessingButton(string(r.Form["test"][0]))
-	}
+
 	p.Word = "<p>" + hangman.HideWord(hangman.GetWord(), hangman.GetList()) + "</p>"
 	p.EntryPart = ListOfChoice(hangman.GetSoluce(), hangman.GetList())
 
@@ -73,7 +72,7 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if count != 0 && p.Attemps == 0 {
-		p.Img = "<img src=\"/assets/guess-i-lose.jpg\"></img>"
+		p.Img = "<img src=\"/assets/lose.png\"></img>"
 		p.EntryPart = ""
 		p.Word = ""
 	} else if count == 0 && p.Attemps != 0 {
@@ -82,7 +81,7 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 		p.Word = ""
 	}
 	ancienmot = hangman.HideWord(hangman.GetWord(), hangman.GetList())
-	template.Must(template.ParseFiles("test.html")).ExecuteTemplate(w, "test.html", p)
+	template.Must(template.ParseFiles("test.html")).Execute(w, p)
 }
 
 // Soluce 2 tableau de bouton
@@ -105,3 +104,17 @@ func ListOfChoice(solution, lettersAlreadyAppeard []rune) string {
 	buttons += "</form>"
 	return buttons
 }
+
+/*
+func ErrorGestion(w http.ResponseWriter, r *http.Request, templateName string) {
+	templates, err := template.ParseFiles(templateName)
+	if err != nil {
+		http.Error(w, "Error 500", http.StatusInternalServerError)
+	}
+	err = templates.Execute(w, nil)
+	if err != nil {
+		http.Error(w, "Error 500", http.StatusInternalServerError)
+	}
+
+}
+*/
