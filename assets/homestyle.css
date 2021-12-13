@@ -10,6 +10,8 @@
 body {
     margin:0;
     text-align: center;
+    color: white;
+    background-color: black ;
 }
 
 h1 {
@@ -30,9 +32,6 @@ button {
     font-family: "m06";
 }
 
-{
-    background-image: url(/images/building.jpg);
-    background-repeat: no-repeat;
-    width: 10px;
-    height: 20px;
-    }
+.gifpendu{
+position: absolute ; bottom: 100px; right: 0px; left: 0px; top: 400px;
+}
