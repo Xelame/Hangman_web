@@ -9,17 +9,19 @@ import (
 )
 
 type DATA struct {
-	Word      string
-	EntryPart string
-	Attemps   int
-	Img       string
+	Word        string
+	EntryPart   string
+	Attemps     int
+	Img         string
+	LifePercent string
 }
 
 var p = DATA{
-	Word:      "",
-	EntryPart: "",
-	Attemps:   hangman.ATTEMPTS_NUMBER,
-	Img:       "",
+	Word:        "",
+	EntryPart:   "",
+	Attemps:     hangman.ATTEMPTS_NUMBER,
+	Img:         "",
+	LifePercent: "<div class=\"bar\"><div class=\"percentage has-tip\"  style=\"width: 100%%\" data-perc=\"100%%\"></div></div>",
 }
 
 var ancienmot = ""
@@ -60,11 +62,12 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 	count := 0
 	r.ParseForm()
 
-	p.Word = "<p>" + hangman.HideWord(hangman.GetWord(), hangman.GetList()) + "</p>"
+	p.Word = "<p>" + hangman.HideWord(hangman.WordChoosen, hangman.GetList()) + "</p>"
 	p.EntryPart = ListOfChoice(hangman.GetSoluce(), hangman.GetList())
 
 	if ancienmot == hangman.HideWord(hangman.GetWord(), hangman.GetList()) {
 		p.Attemps--
+		p.LifePercent = fmt.Sprintf("<div class=\"bar\"><div class=\"percentage has-tip\"  style=\"width: %d%%\" data-perc=\"%d%%\"></div></div>", p.Attemps*10, p.Attemps*10)
 	}
 	for _, letter := range hangman.HideWord(hangman.GetWord(), hangman.GetList()) {
 		if letter == '_' {

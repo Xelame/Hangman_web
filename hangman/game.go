@@ -17,11 +17,9 @@ const DICTIONARY_FILENAME = "hangman/words.txt"
 
 const HANGMAN_LINE = 8
 
-var wordChoosen string = ""
-var solution = []rune{'-', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï'}
-var lettersAlreadyAppeard = []rune{'-'}
-var isRunning bool = true
-var numberOfLetterMissing int = 0
+var Solution = []rune{'-', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï'}
+var LettersAlreadyAppeard = []rune{'-'}
+var WordChoosen string = ""
 
 // -----------------------------------------------------------------------------------
 // Program Part
@@ -30,25 +28,27 @@ var numberOfLetterMissing int = 0
 // Function to Init the game
 func Init(attemptsNumber int) string {
 	// At the beginning of each game
-	lettersAlreadyAppeard = []rune{'-'}
-	wordChoosen = ChooseWord(DICTIONARY_FILENAME) // Choose a word randomly
+	LettersAlreadyAppeard = []rune{'-'}
+	WordChoosen = ChooseWord(DICTIONARY_FILENAME) // Choose a word randomly
 	var startHint rune
 	// Search the letter at the middle of this word
-	for index, value := range wordChoosen {
-		if index == len(wordChoosen)/2-1 {
+	for index, value := range WordChoosen {
+		if index == len(WordChoosen)/2-1 {
 			startHint = value
 		}
 	}
-	lettersAlreadyAppeard = append(lettersAlreadyAppeard, ToUpper(rune(startHint))) // Add this letter in our list
-	fmt.Println(lettersAlreadyAppeard)
-	var hiddenWord string = HideWord(GetWord(), GetList()) // Initialize the word with his letters hide
+	LettersAlreadyAppeard = append(LettersAlreadyAppeard, ToUpper(rune(startHint))) // Add this letter in our list
+	fmt.Println(LettersAlreadyAppeard)
+	var HiddenWord string = HideWord(GetWord(), GetList()) // Initialize the word with his letters hide
 
-	return hiddenWord
+	return HiddenWord
 }
 
 // Function to regroup test to know if the game is end
 func IsFinished(word string) bool {
-	// Count number of underscore in the hiddenword
+	isRunning := true
+	numberOfLetterMissing := true
+	// Count number of underscore in the HiddenWord
 	for _, letter := range word {
 		if letter == '_' {
 			numberOfLetterMissing++
@@ -59,16 +59,4 @@ func IsFinished(word string) bool {
 		isRunning = false
 	}
 	return isRunning
-}
-
-func GetList() []rune {
-	return lettersAlreadyAppeard
-}
-
-func GetWord() string {
-	return wordChoosen
-}
-
-func GetSoluce() []rune {
-	return solution
 }
