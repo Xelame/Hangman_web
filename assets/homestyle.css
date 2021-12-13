@@ -29,3 +29,10 @@ button {
     font-size: 64px;
     font-family: "m06";
 }
+
+{
+    background-image: url(/images/building.jpg);
+    background-repeat: no-repeat;
+    width: 10px;
+    height: 20px;
+    }
