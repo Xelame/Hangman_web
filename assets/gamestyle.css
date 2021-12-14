@@ -1,0 +1,69 @@
+@font-face {
+  font-family: "coolvetica";
+  src: url("/assets/fonts/coolvetica\ rg.otf");
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+body {
+  margin:0;
+  text-align: center;
+}
+
+form.clavier {
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 50%;
+
+}
+
+button {
+    width: 4vw;
+    height: 4vw;
+    font-size: 2vw;
+    text-align: center;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 25%;
+    box-shadow: 0 0.75vw #999;
+    margin-bottom: 1vw;
+    margin-right: 0.25vw;
+  }
+  
+button.available:hover {background-color: #3e8e41}
+  
+button.available:active {
+    background-color: #3e8e41;
+    box-shadow: 0 0.5vw #666;
+    transform: translateY(0.25vw);
+  }
+
+button.unavailable {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+p {
+  font-size: 2vw;
+  font-family: "coolvetica";
+  animation: shake 0.5s;
+}
+
+button.reset {
+  width: 6vw;
+}

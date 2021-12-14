@@ -29,7 +29,6 @@ func main() {
 	fs := http.FileServer(http.Dir("assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	//     nom comprit par le serv        nom qui est dans mon pc
-
 	p.Word = "<p>" + hangman.Init(p.Attemps) + "</p>"
 
 	// Applique a chaque page une fonction qui est a l'écoute qui ecrit (ex : templates html)
@@ -39,7 +38,7 @@ func main() {
 
 	// Ouvre le serveur
 	fmt.Println("Open server at http://localhost:8080/home")
-	log.Fatal(http.ListenAndServe(":7878", nil))
+	log.Fatal(http.ListenAndServe(":7876", nil))
 }
 
 // Page 404 qui s'affiche si mauvaise entrer d'URL
