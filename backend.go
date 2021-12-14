@@ -9,6 +9,7 @@ import (
 )
 
 type DATA struct {
+	Hangman     string
 	Word        string
 	EntryPart   string
 	Attemps     int
@@ -17,6 +18,7 @@ type DATA struct {
 }
 
 var p = DATA{
+	Hangman:     "",
 	Word:        "",
 	EntryPart:   "",
 	Attemps:     hangman.ATTEMPTS_NUMBER,
@@ -24,7 +26,10 @@ var p = DATA{
 	LifePercent: "<div class=\"bar\"><div class=\"percentage has-tip\"  style=\"width: 100%%\" data-perc=\"100%%\"></div></div>",
 }
 
-var ancienmot = ""
+var ancienmot string = ""
+var Tmpl404 = template.Must(template.ParseFiles("404.html"))
+var TmplHome = template.Must(template.ParseFiles("home.html"))
+var TmplTest = template.Must(template.ParseFiles("test.html"))
 
 func main() {
 
@@ -47,51 +52,49 @@ func main() {
 
 // Page 404 qui s'affiche si mauvaise entrer d'URL
 func errorHandler(w http.ResponseWriter, r *http.Request) {
-	template.Must(template.ParseFiles("404.html")).Execute(w, nil)
+	Tmpl404.Execute(w, nil)
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	p.Word = hangman.Init(p.Attemps)
 	p.Attemps = hangman.ATTEMPTS_NUMBER
 	p.Img = ""
-	template.Must(template.ParseFiles("home.html")).Execute(w, nil)
+	TmplHome.Execute(w, nil)
 }
 
 // Soluce 1
 func testHandler(w http.ResponseWriter, r *http.Request) {
-	count := 0
 	r.ParseForm()
+	if r.FormValue("test") != "" {
+		hangman.GuessingLetter(r.FormValue("test"))
+	}
 
-	p.Word = "<p>" + hangman.HideWord(hangman.WordChoosen, hangman.GetList()) + "</p>"
-	p.EntryPart = ListOfChoice(hangman.GetSoluce(), hangman.GetList())
+	p.Word = hangman.HideWord(hangman.WordChoosen, hangman.LettersAlreadyAppeard)
+	p.EntryPart = ListOfChoice(hangman.Solution, hangman.LettersAlreadyAppeard)
 
-	if ancienmot == hangman.HideWord(hangman.GetWord(), hangman.GetList()) {
+	if p.Word == ancienmot {
 		p.Attemps--
 		p.LifePercent = fmt.Sprintf("<div class=\"bar\"><div class=\"percentage has-tip\"  style=\"width: %d%%\" data-perc=\"%d%%\"></div></div>", p.Attemps*10, p.Attemps*10)
 	}
-	for _, letter := range hangman.HideWord(hangman.GetWord(), hangman.GetList()) {
-		if letter == '_' {
-			count++
+	if !(hangman.IsFinished(p.Word, p.Attemps)) {
+		if p.Attemps != 0 {
+			p.Img = "<img src=\"/assets/ff4c887a6d5eb8f92d019102cc6aba75.jpeg\"></img>"
+			p.EntryPart = ""
+		} else {
+			p.Img = "<img src=\"/assets/lose.png\"></img>"
+			p.EntryPart = ""
+			p.Word = hangman.WordChoosen
 		}
 	}
-	if count != 0 && p.Attemps == 0 {
-		p.Img = "<img src=\"/assets/lose.png\"></img>"
-		p.EntryPart = ""
-		p.Word = ""
-	} else if count == 0 && p.Attemps != 0 {
-		p.Img = "<img src=\"/assets/ff4c887a6d5eb8f92d019102cc6aba75.jpeg\"></img>"
-		p.EntryPart = ""
-		p.Word = ""
-	}
-	ancienmot = hangman.HideWord(hangman.GetWord(), hangman.GetList())
-	template.Must(template.ParseFiles("test.html")).Execute(w, p)
+	ancienmot = p.Word
+	TmplTest.Execute(w, p)
 }
 
 // Soluce 2 tableau de bouton
 func ListOfChoice(solution, lettersAlreadyAppeard []rune) string {
 	buttons := "<form class=\"clavier\" action=\"/test\" method=\"post\">\n\t"
 	isAlreadyAppeard := false
-	for _, letter := range solution[1:] {
+	for _, letter := range solution[1:27] {
 		for _, say := range lettersAlreadyAppeard {
 			if say == letter {
 				isAlreadyAppeard = true

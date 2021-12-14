@@ -39,15 +39,19 @@ func Init(attemptsNumber int) string {
 	}
 	LettersAlreadyAppeard = append(LettersAlreadyAppeard, ToUpper(rune(startHint))) // Add this letter in our list
 	fmt.Println(LettersAlreadyAppeard)
-	var HiddenWord string = HideWord(GetWord(), GetList()) // Initialize the word with his letters hide
+	var HiddenWord string = HideWord(WordChoosen, LettersAlreadyAppeard) // Initialize the word with his letters hide
 
 	return HiddenWord
 }
 
 // Function to regroup test to know if the game is end
-func IsFinished(word string) bool {
+func IsFinished(word string, attempts int) bool {
 	isRunning := true
-	numberOfLetterMissing := true
+	numberOfLetterMissing := 0
+	// Attemps Remained
+	if attempts == 0 {
+		isRunning = false
+	}
 	// Count number of underscore in the HiddenWord
 	for _, letter := range word {
 		if letter == '_' {
