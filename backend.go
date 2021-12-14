@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"hangman/hangman"
 	"log"
 	"net/http"
 	"text/template"
+
+	hangman "hangman/hangman"
 )
 
 type DATA struct {
@@ -56,6 +57,7 @@ func errorHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
+	p.Hangman = "<img class=\"hangman\" src=\"/assets/hangman0.png\"></img>"
 	p.Word = hangman.Init(p.Attemps)
 	p.Attemps = hangman.ATTEMPTS_NUMBER
 	p.Img = ""
@@ -74,6 +76,8 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 
 	if p.Word == ancienmot {
 		p.Attemps--
+		p.Hangman = fmt.Sprintf("<img class=\"hangman\" src=\"/assets/hangman%d.png\"></img>", 10-p.Attemps)
+		fmt.Println(10 - p.Attemps)
 		p.LifePercent = fmt.Sprintf("<div class=\"bar\"><div class=\"percentage has-tip\"  style=\"width: %d%%\" data-perc=\"%d%%\"></div></div>", p.Attemps*10, p.Attemps*10)
 	}
 	if !(hangman.IsFinished(p.Word, p.Attemps)) {

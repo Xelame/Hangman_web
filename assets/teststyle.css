@@ -85,3 +85,8 @@ button.reset {
   height: 1em;
   border-radius: 0.5em;
 }
+
+.hangman {
+  box-shadow: 5px 5px 5px black;
+  width: 300px;
+}
