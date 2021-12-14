@@ -2,6 +2,7 @@
     font-family: "Bold";
     src: url("/assets/fonts/theboldfont.ttf");
 }
+
 @font-face {
     font-family:"m06" ;
     src: url("/assets/fonts/m06.TTF");
@@ -22,7 +23,7 @@ h1 {
 }
 button {
     background-color: #4CAF50; /* Green */
-    border:none ;
+    border: none;
     color: white;
     padding: 15px 240px;
     text-align: center;
