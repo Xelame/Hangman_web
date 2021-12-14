@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"text/template"
 
+	// Import my Hangman Program
 	hangman "hangman/hangman"
 )
 
@@ -27,6 +28,7 @@ var p = DATA{
 	LifePercent: "<div class=\"bar\"><div class=\"percentage has-tip\"  style=\"width: 100%%\" data-perc=\"100%%\"></div></div>",
 }
 
+var anciennelettre = ""
 var ancienmot string = ""
 var Tmpl404 = template.Must(template.ParseFiles("404.html"))
 var TmplHome = template.Must(template.ParseFiles("home.html"))
@@ -37,7 +39,7 @@ func main() {
 	// Add the path where our server search assets like css/fonts/js/img
 	fs := http.FileServer(http.Dir("assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	//     nom comprit par le serv        nom qui est dans mon pc
+	//   nom comprit par le serv        nom qui est dans mon pc
 
 	p.Word = "<p>" + hangman.Init(p.Attemps) + "</p>"
 
@@ -57,7 +59,7 @@ func errorHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	p.Hangman = "<img class=\"hangman\" src=\"/assets/hangman0.png\"></img>"
+	//p.Hangman = "<img class=\"hangman\" src=\"/assets/hangman0.png\"></img>"
 	p.Word = hangman.Init(p.Attemps)
 	p.Attemps = hangman.ATTEMPTS_NUMBER
 	p.Img = ""
@@ -66,17 +68,19 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 // Soluce 1
 func testHandler(w http.ResponseWriter, r *http.Request) {
+	letterGuessed := ""
 	r.ParseForm()
 	if r.FormValue("test") != "" {
-		hangman.GuessingLetter(r.FormValue("test"))
+		letterGuessed = r.FormValue("test")
+		hangman.GuessingLetter(letterGuessed)
 	}
 
 	p.Word = hangman.HideWord(hangman.WordChoosen, hangman.LettersAlreadyAppeard)
 	p.EntryPart = ListOfChoice(hangman.Solution, hangman.LettersAlreadyAppeard)
 
-	if p.Word == ancienmot {
+	if p.Word == ancienmot && anciennelettre != letterGuessed {
 		p.Attemps--
-		p.Hangman = fmt.Sprintf("<img class=\"hangman\" src=\"/assets/hangman%d.png\"></img>", 10-p.Attemps)
+		//p.Hangman = fmt.Sprintf("<img class=\"hangman\" src=\"/assets/hangman%d.png\"></img>", 10-p.Attemps)
 		fmt.Println(10 - p.Attemps)
 		p.LifePercent = fmt.Sprintf("<div class=\"bar\"><div class=\"percentage has-tip\"  style=\"width: %d%%\" data-perc=\"%d%%\"></div></div>", p.Attemps*10, p.Attemps*10)
 	}
@@ -91,6 +95,7 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	ancienmot = p.Word
+	anciennelettre = letterGuessed
 	TmplTest.Execute(w, p)
 }
 

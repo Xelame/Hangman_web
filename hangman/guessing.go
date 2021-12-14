@@ -1,7 +1,5 @@
 package hangman
 
-import "fmt"
-
 // -----------------------------------------------------------------------------------
 // Program Part
 // -----------------------------------------------------------------------------------
@@ -12,7 +10,6 @@ func GuessingLetter(input string) {
 
 	// Take the letter
 	for _, value := range input {
-		fmt.Println(value, input)
 		letterGuessed = ToUpper(rune(value)) // Put this letter in capital letter
 	}
 	IsAccentedLetter(letterGuessed) // Add the letter in our list of guessed letters
