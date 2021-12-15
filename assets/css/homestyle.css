@@ -1,11 +1,11 @@
 @font-face {
     font-family: "Bold";
-    src: url("/assets/fonts/theboldfont.ttf");
+    src: url("../fonts/theboldfont.ttf");
 }
 
 @font-face {
     font-family:"m06" ;
-    src: url("/assets/fonts/m06.TTF");
+    src: url("../fonts/m06.TTF");
 }
 
 body {
