@@ -68,14 +68,15 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 func testHandler(w http.ResponseWriter, r *http.Request) {
 	var TmplTest = OpenTemplate("test")
 	letterGuessed := ""
-	r.ParseForm()
+	fmt.Println(r.FormValue("test"))
 	if r.FormValue("test") != "" {
 		letterGuessed = r.FormValue("test")
 		hangman.GuessingLetter(letterGuessed)
 	}
 
 	p.Word = hangman.HideWord(hangman.WordChoosen, hangman.LettersAlreadyAppeard)
-	p.EntryPart = ListOfChoice(hangman.Solution, hangman.LettersAlreadyAppeard)
+	p.EntryPart = "<form class=\"clavier\" action=\"/test\" method=\"get\">\n\t<input type=\"text\" name=\"test\" minlength=\"1\" maxlength=\"1\" autocapitalize=\"characters\" autofocus required></form>"
+	// p.EntryPart = ListOfChoice(hangman.Solution, hangman.LettersAlreadyAppeard)
 
 	if p.Word == ancienmot && anciennelettre != letterGuessed {
 		p.Attemps--
@@ -100,7 +101,7 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 
 // Soluce 2 tableau de bouton
 func ListOfChoice(solution, lettersAlreadyAppeard []rune) string {
-	buttons := "<form class=\"clavier\" action=\"/test\" method=\"post\">\n\t"
+	buttons := "<form class=\"clavier\" action=\"/test\" method=\"get\">\n\t"
 	isAlreadyAppeard := false
 	for _, letter := range solution[1:27] {
 		for _, say := range lettersAlreadyAppeard {
@@ -134,7 +135,7 @@ func ErrorGestion(w http.ResponseWriter, r *http.Request, templateName string) {
 */
 
 func OpenTemplate(fileName string) *template.Template {
-	tmpl, err := template.ParseFiles(fmt.Sprintf("assets/template/%s.html", fileName))
+	tmpl, err := template.ParseFiles(fmt.Sprintf("assets/templates/%s.html", fileName))
 	if err != nil {
 		fmt.Println(err.Error())
 	}
