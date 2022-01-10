@@ -19,7 +19,7 @@ type DATA struct {
 	LifePercent string
 }
 
-var p = DATA{
+var data = DATA{
 	Hangman:     "",
 	Word:        "",
 	EntryPart:   "",
@@ -28,75 +28,73 @@ var p = DATA{
 	LifePercent: "<div class=\"bar\"><div class=\"percentage has-tip\"  style=\"width: 100%%\" data-perc=\"100%%\"></div></div>",
 }
 
-var anciennelettre string = ""
-var ancienmot string = ""
+var oldLetter string = ""
+var oldWord string = ""
 var Tmpl404 = OpenTemplate("404")
 var TmplHome = OpenTemplate("home")
+var TmplTest = OpenTemplate("test")
 
 func main() {
 
-	// Add the path where our server search assets like css/fonts/js/img
+	// Add the static path where our server search assets like css/fonts/js/img
 	fs := http.FileServer(http.Dir("assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 	//   nom comprit par le serv        nom qui est dans mon pc
-	p.Word = "<p>" + hangman.Init(p.Attemps) + "</p>"
 
 	// Applique a chaque page une fonction qui est a l'écoute qui ecrit (ex : templates html)
-	http.HandleFunc("/home", homeHandler)
-	http.HandleFunc("/test", testHandler)
-	http.HandleFunc("/", errorHandler)
+	http.HandleFunc("/home", HomeHandler)
+	http.HandleFunc("/hangman", HangmanHandler)
+	http.HandleFunc("/", ErrorHandler)
 
 	// Ouvre le serveur
 	fmt.Println("Open server at http://localhost:8080/home")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-// Page 404 qui s'affiche si mauvaise entrer d'URL
-func errorHandler(w http.ResponseWriter, r *http.Request) {
-	Tmpl404.Execute(w, nil)
-}
-
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	//p.Hangman = "<img class=\"hangman\" src=\"/assets/hangman0.png\"></img>"
-	p.Word = hangman.Init(p.Attemps)
-	p.Attemps = hangman.ATTEMPTS_NUMBER
-	p.Img = ""
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
+	//data.Hangman = "<img class=\"hangman\" src=\"/assets/hangman0.png\"></img>"
+	data.Word = hangman.Init(data.Attemps)
+	data.Attemps = hangman.ATTEMPTS_NUMBER
+	data.Img = ""
 	TmplHome.Execute(w, nil)
 }
 
 // Soluce 1
-func testHandler(w http.ResponseWriter, r *http.Request) {
-	var TmplTest = OpenTemplate("test")
+func HangmanHandler(w http.ResponseWriter, r *http.Request) {
 	letterGuessed := ""
-	fmt.Println(r.FormValue("test"))
 	if r.FormValue("test") != "" {
 		letterGuessed = r.FormValue("test")
 		hangman.GuessingLetter(letterGuessed)
 	}
 
-	p.Word = hangman.HideWord(hangman.WordChoosen, hangman.LettersAlreadyAppeard)
-	p.EntryPart = "<form class=\"clavier\" action=\"/test\" method=\"get\">\n\t<input type=\"text\" name=\"test\" minlength=\"1\" maxlength=\"1\" autocapitalize=\"characters\" autofocus required></form>"
-	// p.EntryPart = ListOfChoice(hangman.Solution, hangman.LettersAlreadyAppeard)
+	data.Word = hangman.HideWord(hangman.WordChoosen, hangman.LettersAlreadyAppeard)
+	data.EntryPart = "<form class=\"clavier\" action=\"/hangman\" method=\"post\">\n\t<input type=\"text\" name=\"test\" minlength=\"1\" maxlength=\"1\" autocapitalize=\"characters\" autofocus required></form>"
+	// data.EntryPart = ListOfChoice(hangman.Solution, hangman.LettersAlreadyAppeard)
 
-	if p.Word == ancienmot && anciennelettre != letterGuessed {
-		p.Attemps--
-		//p.Hangman = fmt.Sprintf("<img class=\"hangman\" src=\"/assets/hangman%d.png\"></img>", 10-p.Attemps)
-		fmt.Println(10 - p.Attemps)
-		p.LifePercent = fmt.Sprintf("<div class=\"bar\"><div class=\"percentage has-tip\"  style=\"width: %d%%\"></div></div>", p.Attemps*10)
+	if data.Word == oldWord && oldLetter != letterGuessed {
+		data.Attemps--
+		// data.Hangman = fmt.Sprintf("<img class=\"hangman\" src=\"/assets/hangman%d.png\"></img>", 10-data.Attemps)
+		fmt.Println(data.Attemps)
+		data.LifePercent = fmt.Sprintf("<div class=\"bar\"><div class=\"percentage has-tip\" style=\"width: %d%%\"></div></div>", data.Attemps*10)
 	}
-	if !(hangman.IsFinished(p.Word, p.Attemps)) {
-		if p.Attemps != 0 {
-			p.Img = "<img src=\"/assets/ff4c887a6d5eb8f92d019102cc6aba75.jpeg\"></img>"
-			p.EntryPart = ""
+	if !(hangman.IsFinished(data.Word, data.Attemps)) {
+		if data.Attemps != 0 {
+			data.Img = "<img src=\"/assets/ff4c887a6d5eb8f92d019102cc6aba75.jpeg\"></img>"
+			data.EntryPart = ""
 		} else {
-			p.Img = "<img src=\"/assets/lose.png\"></img>"
-			p.EntryPart = ""
-			p.Word = hangman.WordChoosen
+			data.Img = "<img src=\"/assets/lose.png\"></img>"
+			data.EntryPart = ""
+			data.Word = hangman.WordChoosen
 		}
 	}
-	ancienmot = p.Word
-	anciennelettre = letterGuessed
-	TmplTest.Execute(w, p)
+	oldWord = data.Word
+	oldLetter = letterGuessed
+	TmplTest.Execute(w, data)
+}
+
+func ErrorHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Http error type : " + string(http.StatusNotFound))
+	Tmpl404.Execute(w, nil)
 }
 
 // Soluce 2 tableau de bouton
@@ -120,7 +118,7 @@ func ListOfChoice(solution, lettersAlreadyAppeard []rune) string {
 	return buttons
 }
 
-/*
+
 func ErrorGestion(w http.ResponseWriter, r *http.Request, templateName string) {
 	templates, err := template.ParseFiles(templateName)
 	if err != nil {
@@ -132,10 +130,9 @@ func ErrorGestion(w http.ResponseWriter, r *http.Request, templateName string) {
 	}
 
 }
-*/
 
 func OpenTemplate(fileName string) *template.Template {
-	tmpl, err := template.ParseFiles(fmt.Sprintf("assets/templates/%s.html", fileName))
+	tmpl, err := template.ParseFiles(fmt.Sprintf("./assets/templates/%s.html", fileName))
 	if err != nil {
 		fmt.Println(err.Error())
 	}

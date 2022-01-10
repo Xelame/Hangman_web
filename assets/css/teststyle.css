@@ -19,7 +19,9 @@
 
 body {
   margin:0;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 form.clavier {
@@ -32,26 +34,26 @@ form.clavier {
 }
 
 button {
-    width: 4vw;
-    height: 4vw;
-    font-size: 2vw;
-    text-align: center;
-    color: #fff;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 25%;
-    box-shadow: 0 0.75vw #999;
-    margin-bottom: 1vw;
-    margin-right: 0.25vw;
+  width: 4vw;
+  height: 4vw;
+  font-size: 2vw;
+  text-align: center;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 25%;
+  box-shadow: 0 0.75vw #999;
+  margin-bottom: 1vw;
+  margin-right: 0.25vw;
   }
   
 button.available:hover {background-color: #3e8e41}
   
 button.available:active {
-    background-color: #3e8e41;
-    box-shadow: 0 0.5vw #666;
-    transform: translateY(0.25vw);
-  }
+  background-color: #3e8e41;
+  box-shadow: 0 0.5vw #666;
+  transform: translateY(0.25vw);
+}
 
 button.unavailable {
   background-color: #666;
@@ -81,7 +83,7 @@ button.reset {
 .bar .percentage {
   position: relative;
   font-size: 1em;
-  background: tomato;
+  background: red;
   height: 1em;
   border-radius: 0.5em;
 }
