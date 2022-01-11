@@ -29,20 +29,23 @@ func IsValidEntry(guessingInput string) bool {
 		guessingLetter = ToUpper(v) // Put this letter in capital letter
 	}
 	if count == 1 {
-		fmt.Println("len = 1")
 		// Test if the letter isn't already in our list of guessed letter
 		for _, letterAlreadyHere := range LettersAlreadyAppeard {
 			if guessingLetter == letterAlreadyHere {
+				fmt.Print("Error 500 : ")
 				fmt.Println("deja present")
 				isNotValid = true
 			}
 		}
 		// If it's a capital letter or a accented letter (like in french)
 		if !(IsUpper(guessingLetter) || IsExctendedAsciiLetter(guessingLetter)) {
+			fmt.Print("Error 500 : ")
 			fmt.Println("pas une lettre")
 			isNotValid = true
 		}
 	} else {
+		fmt.Print("Error 500 : ")
+		fmt.Println("len > 1")
 		// The entry is too long
 		isNotValid = true
 	}
