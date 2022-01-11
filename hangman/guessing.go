@@ -1,5 +1,7 @@
 package hangman
 
+import "fmt"
+
 // -----------------------------------------------------------------------------------
 // Program Part
 // -----------------------------------------------------------------------------------
@@ -13,6 +15,7 @@ func GuessingLetter(input string) {
 		letterGuessed = ToUpper(rune(value)) // Put this letter in capital letter
 	}
 	IsAccentedLetter(letterGuessed) // Add the letter in our list of guessed letters
+
 }
 
 // Function to regroup tests to know if the player's entry is valid
@@ -21,19 +24,22 @@ func IsValidEntry(guessingInput string) bool {
 	var count int = 0
 	isNotValid := false
 	// Test if the lenght of entry isn't more by one letter
-	for range guessingInput {
+	for _, v := range guessingInput {
 		count++
+		guessingLetter = ToUpper(v) // Put this letter in capital letter
 	}
 	if count == 1 {
-		guessingLetter = ToUpper(rune(guessingInput[0])) // Put this letter in capital letter
+		fmt.Println("len = 1")
 		// Test if the letter isn't already in our list of guessed letter
 		for _, letterAlreadyHere := range LettersAlreadyAppeard {
 			if guessingLetter == letterAlreadyHere {
+				fmt.Println("deja present")
 				isNotValid = true
 			}
 		}
 		// If it's a capital letter or a accented letter (like in french)
 		if !(IsUpper(guessingLetter) || IsExctendedAsciiLetter(guessingLetter)) {
+			fmt.Println("pas une lettre")
 			isNotValid = true
 		}
 	} else {
