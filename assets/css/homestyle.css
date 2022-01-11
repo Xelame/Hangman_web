@@ -1,11 +1,11 @@
 @font-face {
     font-family: "Bold";
-    src: url("/assets/fonts/theboldfont.ttf");
+    src: url("../fonts/theboldfont.ttf");
 }
 
 @font-face {
     font-family:"m06" ;
-    src: url("/assets/fonts/m06.TTF");
+    src: url("../fonts/m06.TTF");
 }
 
 body {
@@ -33,6 +33,9 @@ button {
     font-family: "m06";
 }
 
-.gifpendu{
-position: absolute ; bottom: 100px; right: 0px; left: 0px; top: 400px;
+test {
+    background-image: url(/images/building.jpg);
+    background-repeat: no-repeat;
+    width: 10px;
+    height: 20px;
 }

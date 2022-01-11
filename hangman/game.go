@@ -4,10 +4,6 @@ package hangman
 // Import Part
 // -----------------------------------------------------------------------------------
 
-import (
-	"fmt"
-)
-
 // -----------------------------------------------------------------------------------
 // Const and Var Part
 // -----------------------------------------------------------------------------------
@@ -38,8 +34,7 @@ func Init(attemptsNumber int) string {
 		}
 	}
 	LettersAlreadyAppeard = append(LettersAlreadyAppeard, ToUpper(rune(startHint))) // Add this letter in our list
-	fmt.Println(LettersAlreadyAppeard)
-	var HiddenWord string = HideWord(WordChoosen, LettersAlreadyAppeard) // Initialize the word with his letters hide
+	var HiddenWord string = HideWord(WordChoosen, LettersAlreadyAppeard)            // Initialize the word with his letters hide
 
 	return HiddenWord
 }

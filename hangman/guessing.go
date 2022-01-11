@@ -12,10 +12,10 @@ func GuessingLetter(input string) {
 
 	// Take the letter
 	for _, value := range input {
-		fmt.Println(value, input)
 		letterGuessed = ToUpper(rune(value)) // Put this letter in capital letter
 	}
 	IsAccentedLetter(letterGuessed) // Add the letter in our list of guessed letters
+
 }
 
 // Function to regroup tests to know if the player's entry is valid
@@ -24,22 +24,28 @@ func IsValidEntry(guessingInput string) bool {
 	var count int = 0
 	isNotValid := false
 	// Test if the lenght of entry isn't more by one letter
-	for range guessingInput {
+	for _, v := range guessingInput {
 		count++
+		guessingLetter = ToUpper(v) // Put this letter in capital letter
 	}
 	if count == 1 {
-		guessingLetter = ToUpper(rune(guessingInput[0])) // Put this letter in capital letter
 		// Test if the letter isn't already in our list of guessed letter
 		for _, letterAlreadyHere := range LettersAlreadyAppeard {
 			if guessingLetter == letterAlreadyHere {
+				fmt.Print("Error 500 : ")
+				fmt.Println("deja present")
 				isNotValid = true
 			}
 		}
 		// If it's a capital letter or a accented letter (like in french)
 		if !(IsUpper(guessingLetter) || IsExctendedAsciiLetter(guessingLetter)) {
+			fmt.Print("Error 500 : ")
+			fmt.Println("pas une lettre")
 			isNotValid = true
 		}
 	} else {
+		fmt.Print("Error 500 : ")
+		fmt.Println("len > 1")
 		// The entry is too long
 		isNotValid = true
 	}
