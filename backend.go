@@ -96,7 +96,7 @@ func HangmanHandler(w http.ResponseWriter, r *http.Request) {
 	if !(hangman.IsFinished(data.Word, data.Attemps)) {
 		data.Hangman = ""
 		if data.Attemps != 0 {
-			data.Img = "<img src=\"/assets/img/ff4c887a6d5eb8f92d019102cc6aba75.jpeg\"></img>"
+			data.Img = "<img src=\"/assets/img/win.jpeg\"></img>"
 			data.EntryPart = ""
 		} else {
 			data.Img = "<img src=\"/assets/img/lose.png\"></img>"
